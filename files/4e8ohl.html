@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Message</title>
+    <style>
+        :root {
+            --color-bg: #ffdef2;
+            --color-envelope: #ff85a1;
+            --color-letter: #ffffff;
+            --color-text: #4a4a4a;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--color-bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container Utama */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Bentuk Amplop */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: var(--color-envelope);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Penutup Amplop */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 2;
+            border-top: 110px solid #ff5d8f;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            transform-origin: top;
+            transition: transform 0.5s 0.3s;
+        }
+
+        /* Bagian Dalam Amplop */
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-left: 150px solid #ffb3c1;
+            border-right: 150px solid #ffb3c1;
+            border-bottom: 100px solid #ffb3c1;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        /* Kertas Surat */
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            background: var(--color-letter);
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+            transition: transform 0.5s;
+            text-align: center;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        }
+
+        .letter p {
+            font-size: 14px;
+            color: var(--color-text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .heart {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: #ff0a54;
+            z-index: 3;
+            transform: translate(-50%, -50%) rotate(45deg);
+            transition: transform 0.5s 0.3s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .heart::before, .heart::after {
+            content: "";
+            width: 30px;
+            height: 30px;
+            background: #ff0a54;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before { left: -15px; }
+        .heart::after { top: -15px; }
+
+        /* Animasi saat dibuka */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-120px);
+            z-index: 2;
+        }
+
+        .envelope-wrapper.open .heart {
+            transform: translate(-50%, -180px) rotate(45deg) scale(0.8);
+            opacity: 0;
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: 50px;
+            color: #ff5d8f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" onclick="toggleLetter()">
+        <div class="envelope">
+            <div class="letter">
+                <p><strong>Hi Kamu!</strong></p>
+                <p>Cuma mau bilang, makasih ya udah ada di dunia ini. Setiap hari jadi lebih berwarna sejak kenal kamu.</p>
+                <p>❤️</p>
+            </div>
+        </div>
+        <div class="heart"></div>
+    </div>
+
+    <div class="instruction">Klik amplopnya ya!</div>
+
+    <script>
+        function toggleLetter() {
+            const wrapper = document.querySelector('.envelope-wrapper');
+            wrapper.classList.toggle('open');
+            
+            const instruction = document.querySelector('.instruction');
+            if(wrapper.classList.contains('open')) {
+                instruction.style.display = 'none';
+            } else {
+                instruction.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
