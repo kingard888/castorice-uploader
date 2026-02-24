@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Valencia ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff8fa3;
+            --bg: #0f0f0f;
+            --envelope-color: #c9184a;
+        }
+
+        body {
+            background-color: var(--bg);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        /* Container Utama */
+        .container {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Amplop */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background-color: var(--envelope-color);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transition: 0.5s;
+        }
+
+        /* Lipatan Atas (Tutup) */
+        .envelope-wrapper::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 5; /* Di atas segalanya saat tertutup */
+            border-top: 130px solid var(--secondary);
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            transform-origin: top;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Kertas Surat */
+        .letter {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 90%;
+            background: white;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: all 0.5s ease-in-out;
+            z-index: 2; /* Di dalam amplop (di bawah lipatan atas) */
+            border-radius: 5px;
+            color: #333;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .letter h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        .letter p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* Samping & Bawah Amplop (Visual agar surat di 'dalam') */
+        .envelope-wrapper::after {
+            content: "";
+            position: absolute;
+            z-index: 4;
+            width: 300px;
+            height: 200px;
+            background-image: linear-gradient(to right, #ff4d6d 50%, #ff758f 50%);
+            clip-path: polygon(0 0, 150px 100px, 300px 0, 300px 200px, 0 200px);
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        /* Efek Saat Dibuka */
+        .envelope-wrapper.open {
+            transform: translateY(100px);
+        }
+
+        .envelope-wrapper.open::before {
+            transform: rotateX(180deg);
+            z-index: 1; /* Pindah ke belakang saat terbuka */
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translate(-50%, -220px); /* Meluncur keluar */
+            height: 300px;
+            z-index: 6; /* Sekarang di paling depan */
+        }
+
+        /* Nama Valencia Menyala */
+        .title {
+            position: absolute;
+            top: -150px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            color: white;
+            text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .open .title {
+            opacity: 1;
+            top: -180px;
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: absolute;
+            color: var(--primary);
+            font-size: 15px;
+            user-select: none;
+            pointer-events: none;
+            animation: float 4s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="envelope-wrapper" id="envelope" onclick="openMe()">
+            <div class="title">Valencia ✨</div>
+            <div class="letter">
+                <h2>Happy Birthday!</h2>
+                <p>Hari ini adalah harimu! Semoga setiap langkahmu tahun ini dipenuhi dengan kebahagiaan yang nggak ada habisnya.</p>
+                <p>Kamu hebat, kamu kuat, dan kamu pantas mendapatkan hal-hal terbaik di dunia ini.</p>
+                <p style="font-size: 20px;">🎂🌷💖</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openMe() {
+            document.getElementById('envelope').classList.toggle('open');
+            // Tambahkan efek getar HP kalau dibuka di mobile
+            if (window.navigator.vibrate) {
+                window.navigator.vibrate(100);
+            }
+        }
+
+        // Generate Hearts secara random
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        setInterval(createHeart, 200);
+    </script>
+</body>
+</html>
